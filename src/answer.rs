@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use prettytable::{cell, row, Row};
+use prettytable::{row, Row};
 
 pub struct Answer {
     pub day: u32,

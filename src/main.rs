@@ -1,7 +1,7 @@
 mod answer;
 mod days;
 
-use prettytable::{cell, row, Row, Table};
+use prettytable::{row, Row, Table};
 
 use crate::answer::{total_duration, Answer};
 
