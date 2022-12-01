@@ -7,6 +7,7 @@ pub struct Answer {
     pub part_1: String,
     pub part_2: String,
     pub duration: Duration,
+    pub no_io_duration: Duration,
 }
 
 impl From<Answer> for Row {
@@ -15,7 +16,8 @@ impl From<Answer> for Row {
             &answer.day,
             &answer.part_1,
             &answer.part_2,
-            &format!("{}μs", &answer.duration.as_micros())
+            &format!("{}μs", &answer.duration.as_micros()),
+            &format!("{}μs", &answer.no_io_duration.as_micros())
         ]
     }
 }

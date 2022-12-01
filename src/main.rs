@@ -7,7 +7,13 @@ use crate::answer::{total_duration, Answer};
 
 fn main() {
     let mut table = Table::new();
-    table.add_row(row!["Day", "Part 1", "Part 2", "Duration"]);
+    table.add_row(row![
+        "Day",
+        "Part 1",
+        "Part 2",
+        "Duration",
+        "No IO Duration"
+    ]);
 
     let answers: Vec<Answer> = vec![days::day_1::execute()];
 

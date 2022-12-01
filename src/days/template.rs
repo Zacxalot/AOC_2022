@@ -19,6 +19,7 @@ pub fn execute() -> Answer {
         part_1,
         part_2,
         duration,
+        no_io_duration: duration,
     }
 }
 
