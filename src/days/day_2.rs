@@ -1,4 +1,3 @@
-use itertools::Itertools;
 use std::{fs, time::Instant};
 
 use crate::Answer;
@@ -15,12 +14,11 @@ pub fn execute() -> Answer {
 
     let part_1 = plays
         .clone()
-        .into_iter()
         .map(|play| scorer(play.0, play.1))
         .sum::<u32>()
         .to_string();
+
     let part_2 = plays
-        .into_iter()
         .map(|play| part_2_scorer(play.0, play.1))
         .sum::<u32>()
         .to_string();
