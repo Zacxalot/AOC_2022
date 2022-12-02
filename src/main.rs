@@ -15,7 +15,7 @@ fn main() {
         "No IO Duration"
     ]);
 
-    let answers: Vec<Answer> = vec![days::day_1::execute()];
+    let answers: Vec<Answer> = vec![days::day_1::execute(), days::day_2::execute()];
 
     let duration = total_duration(&answers);
 
