@@ -14,12 +14,12 @@ pub fn execute() -> Answer {
 
     let part_1 = plays
         .clone()
-        .map(|play| scorer(play.0, play.1))
+        .map(|(l, r)| scorer(l, r))
         .sum::<u32>()
         .to_string();
 
     let part_2 = plays
-        .map(|play| part_2_scorer(play.0, play.1))
+        .map(|(l, r)| part_2_scorer(l, r))
         .sum::<u32>()
         .to_string();
 

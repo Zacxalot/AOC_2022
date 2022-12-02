@@ -13,11 +13,10 @@ pub fn execute() -> Answer {
 
     let mut totals: Vec<usize> = vec![];
 
-    for group in &elf_groups {
-        if group.0 {
+    for (matched, group) in &elf_groups {
+        if matched {
             totals.push(
                 group
-                    .1
                     .map(|val| val.parse::<usize>().unwrap())
                     .sum::<usize>(),
             );
