@@ -1,5 +1,7 @@
 use std::{fs, time::Instant, usize};
 
+use itertools::Itertools;
+
 use crate::Answer;
 
 fn char_to_priority(c: char) -> usize {
@@ -26,15 +28,29 @@ pub fn execute() -> Answer {
         })
         .collect::<Vec<(String, String)>>();
 
-    let pairs: usize = bags
+    let part_1 = bags
         .iter()
         .map(|(c1, c2)| c1.chars().find(|c1_char| c2.contains(*c1_char)).unwrap())
         .map(char_to_priority)
-        .sum();
+        .sum::<usize>()
+        .to_string();
 
-    let part_1 = pairs.to_string();
+    let part_2_lines = file
+        .lines()
+        .map(|line| line.to_string())
+        .collect::<Vec<String>>();
 
-    let part_2 = "2".to_owned();
+    let part_2 = part_2_lines
+        .chunks(3)
+        .map(|chunk| {
+            chunk[0]
+                .chars()
+                .find(|c1_char| chunk[1].contains(*c1_char) && chunk[2].contains(*c1_char))
+                .unwrap()
+        })
+        .map(char_to_priority)
+        .sum::<usize>()
+        .to_string();
 
     let duration = Instant::now() - time_before;
     let no_io_duration = Instant::now() - time_no_io;
@@ -46,9 +62,4 @@ pub fn execute() -> Answer {
         duration,
         no_io_duration,
     }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
 }
