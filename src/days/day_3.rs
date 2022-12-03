@@ -1,7 +1,5 @@
 use std::{fs, time::Instant, usize};
 
-use itertools::Itertools;
-
 use crate::Answer;
 
 fn char_to_priority(c: char) -> usize {
@@ -56,7 +54,7 @@ pub fn execute() -> Answer {
     let no_io_duration = Instant::now() - time_no_io;
 
     Answer {
-        day: 2,
+        day: 3,
         part_1,
         part_2,
         duration,
