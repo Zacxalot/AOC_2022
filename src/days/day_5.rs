@@ -4,6 +4,33 @@ use itertools::Itertools;
 
 use crate::Answer;
 
+fn process_crates(
+    crates: &mut [Vec<char>],
+    instructions: &Vec<(usize, usize, usize)>,
+    crate_mover_9000: bool,
+) {
+    for (count, from, to) in instructions {
+        let from_len = crates[from - 1].len();
+        let mut to_move = crates[from - 1]
+            .drain((from_len - count)..)
+            .collect::<Vec<char>>();
+
+        if crate_mover_9000 {
+            to_move.reverse();
+        }
+
+        crates[to - 1].append(&mut to_move);
+    }
+}
+
+fn crates_to_output_string(crates: &[Vec<char>]) -> String {
+    crates
+        .iter()
+        .map(|stack| stack.last().unwrap_or(&' '))
+        .filter(|c| !c.is_whitespace())
+        .collect::<String>()
+}
+
 pub fn execute() -> Answer {
     let time_before = Instant::now();
     let file = fs::read_to_string("./input/day_5.txt").unwrap();
@@ -34,51 +61,21 @@ pub fn execute() -> Answer {
     let instructions = file
         .lines()
         .filter(|line| line.starts_with('m'))
-        .map(|line| line.split(' ').collect::<Vec<&str>>())
-        .map(|split| {
+        .map(|line| line.split(' '))
+        .map(|mut split| {
             (
-                split[1].parse::<usize>().unwrap(),
-                split[3].parse::<usize>().unwrap(),
-                split[5].parse::<usize>().unwrap(),
+                split.nth(1).unwrap().parse::<usize>().unwrap(),
+                split.nth(1).unwrap().parse::<usize>().unwrap(),
+                split.nth(1).unwrap().parse::<usize>().unwrap(),
             )
         })
         .collect::<Vec<(usize, usize, usize)>>();
 
-    for (count, from, to) in &instructions {
-        let from_len = crates[from - 1].len();
-        let mut to_move = crates[from - 1]
-            .drain((from_len - count)..)
-            .collect::<Vec<char>>();
+    process_crates(&mut crates, &instructions, true);
+    process_crates(&mut part_2_crates, &instructions, false);
 
-        to_move.reverse();
-
-        crates[to - 1].append(&mut to_move);
-    }
-
-    let part_1 = crates
-        .iter()
-        .map(|stack| stack.last().unwrap_or(&' '))
-        .filter(|c| !c.is_whitespace())
-        .collect::<String>();
-
-    for (count, from, to) in instructions {
-        let from_len = part_2_crates[from - 1].len();
-        let mut to_move = part_2_crates[from - 1]
-            .drain((from_len - count)..)
-            .collect::<Vec<char>>();
-
-        part_2_crates[to - 1].append(&mut to_move);
-    }
-
-    let part_2 = part_2_crates
-        .iter()
-        .map(|stack| stack.last().unwrap_or(&' '))
-        .filter(|c| !c.is_whitespace())
-        .collect::<String>();
-
-    // for instruction in instructions {
-    //     println!("{:?}", instruction);
-    // }
+    let part_1 = crates_to_output_string(&crates);
+    let part_2 = crates_to_output_string(&part_2_crates);
 
     let duration = Instant::now() - time_before;
     let no_io_duration = Instant::now() - time_no_io;
