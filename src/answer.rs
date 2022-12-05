@@ -22,10 +22,18 @@ impl From<Answer> for Row {
     }
 }
 
-pub fn total_duration(answers: &[Answer]) -> u128 {
-    answers
+pub fn total_duration(answers: &[Answer]) -> (u128, u128) {
+    let duration = answers
         .iter()
         .map(|x| x.duration)
         .fold(Duration::from_secs(0), |acc, x| acc + x)
-        .as_micros()
+        .as_micros();
+
+    let no_io_duration = answers
+        .iter()
+        .map(|x| x.no_io_duration)
+        .fold(Duration::from_secs(0), |acc, x| acc + x)
+        .as_micros();
+
+    (duration, no_io_duration)
 }

@@ -23,12 +23,12 @@ fn main() {
         days::day_5::execute(),
     ];
 
-    let duration = total_duration(&answers);
+    let (duration, no_io_duration) = total_duration(&answers);
 
     for answer in answers {
         table.add_row(Row::from(answer));
     }
 
     table.printstd();
-    println!("\nTotal duration: {}μs", duration);
+    println!("\nTotal duration: {duration}μs (Total no IO duration {no_io_duration}μs)",);
 }
