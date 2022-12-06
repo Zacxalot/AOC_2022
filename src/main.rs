@@ -1,20 +1,13 @@
 mod answer;
 mod days;
+mod table;
 
-use prettytable::{row, Row, Table};
-
-use crate::answer::{total_duration, Answer};
+use crate::{
+    answer::{total_duration, Answer},
+    table::print_table,
+};
 
 fn main() {
-    let mut table = Table::new();
-    table.add_row(row![
-        "Day",
-        "Part 1",
-        "Part 2",
-        "Duration",
-        "No IO Duration"
-    ]);
-
     let answers: Vec<Answer> = vec![
         days::day_1::execute(),
         days::day_2::execute(),
@@ -26,10 +19,7 @@ fn main() {
 
     let (duration, no_io_duration) = total_duration(&answers);
 
-    for answer in answers {
-        table.add_row(Row::from(answer));
-    }
+    print_table(answers);
 
-    table.printstd();
     println!("\nTotal duration: {duration}μs (Total no IO duration {no_io_duration}μs)",);
 }
