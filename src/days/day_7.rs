@@ -1,5 +1,4 @@
 use itertools::Itertools;
-use prettytable::format;
 
 use crate::Answer;
 use std::{collections::HashMap, fs, time::Instant};
@@ -121,7 +120,22 @@ pub fn execute() -> Answer {
         .filter(|val| val <= &&100000)
         .sum::<usize>()
         .to_string();
-    let part_2 = "day".to_string();
+
+    const TOTAL_SPACE: usize = 70000000;
+    let used_space = dir_sizes.get("\\/").unwrap();
+    let target_to_delete = 30000000 - (TOTAL_SPACE - used_space);
+
+    println!("{target_to_delete}");
+
+    let part_2 = dir_sizes
+        .values()
+        .fold(TOTAL_SPACE, |acc, val| {
+            if val >= &target_to_delete && val < &acc {
+                return *val;
+            }
+            acc
+        })
+        .to_string();
 
     let duration = Instant::now() - time_before;
     let no_io_duration = Instant::now() - time_no_io;
