@@ -94,15 +94,11 @@ pub fn execute() -> Answer {
 
     let mut dir_sizes: HashMap<String, usize> = HashMap::new();
 
-    println!();
-    // println!("{:?}", directories.get(&"mlm".to_owned()));
-
     for key in directories.keys() {
         let mut children = vec![key.clone()];
         let mut total = 0;
 
         while let Some(dir) = children.pop() {
-            // println!("Child {}", dir);
             let dir = directories.get(&dir).unwrap();
 
             for child in &dir.children {
@@ -124,8 +120,6 @@ pub fn execute() -> Answer {
     const TOTAL_SPACE: usize = 70000000;
     let used_space = dir_sizes.get("\\/").unwrap();
     let target_to_delete = 30000000 - (TOTAL_SPACE - used_space);
-
-    println!("{target_to_delete}");
 
     let part_2 = dir_sizes
         .values()
