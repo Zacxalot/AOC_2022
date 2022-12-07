@@ -65,8 +65,6 @@ pub fn execute() -> Answer {
 
     let mut current_dir = "".to_string();
     for instruction in instructions {
-        println!("{current_dir}");
-        println!("{:?}", instruction);
         match instruction {
             Instruction::CD(directory) => {
                 if directory == ".." {
@@ -84,7 +82,6 @@ pub fn execute() -> Answer {
                 });
 
                 for line in output {
-                    println!("{:?}", line);
                     match line {
                         Output::Dir(dir_name) => {
                             dir.children.push(format!("{current_dir}\\{dir_name}"))
@@ -96,13 +93,12 @@ pub fn execute() -> Answer {
         }
     }
 
-    let mut leq_100000_total = 0;
+    let mut dir_sizes: HashMap<String, usize> = HashMap::new();
 
     println!();
     // println!("{:?}", directories.get(&"mlm".to_owned()));
 
     for key in directories.keys() {
-        println!("Dir {}", key);
         let mut children = vec![key.clone()];
         let mut total = 0;
 
@@ -117,12 +113,14 @@ pub fn execute() -> Answer {
             total += dir.local_size;
         }
 
-        if total <= 100000 {
-            leq_100000_total += total;
-        }
+        dir_sizes.insert(key.to_owned(), total);
     }
 
-    let part_1 = leq_100000_total.to_string();
+    let part_1 = dir_sizes
+        .values()
+        .filter(|val| val <= &&100000)
+        .sum::<usize>()
+        .to_string();
     let part_2 = "day".to_string();
 
     let duration = Instant::now() - time_before;
