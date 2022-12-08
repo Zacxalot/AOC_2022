@@ -16,6 +16,7 @@ fn main() {
         days::day_5::execute(),
         days::day_6::execute(),
         days::day_7::execute(),
+        days::day_8::execute(),
     ];
 
     let (duration, no_io_duration) = total_duration(&answers);
