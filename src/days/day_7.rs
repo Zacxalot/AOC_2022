@@ -135,7 +135,7 @@ pub fn execute() -> Answer {
     let no_io_duration = Instant::now() - time_no_io;
 
     Answer {
-        day: 6,
+        day: 7,
         part_1,
         part_2,
         duration,
