@@ -40,8 +40,8 @@ impl Position {
         }
     }
 
-    fn move_to(&mut self, target: &Position) {
-        if (self.x - target.x).abs() <= 1 && (self.y - target.y).abs() <= 1 {
+    fn move_to(&mut self, target: &Position, max_distance: i32) {
+        if (self.x - target.x).abs() <= max_distance && (self.y - target.y).abs() <= max_distance {
             return;
         }
 
@@ -114,28 +114,37 @@ pub fn execute() -> Answer {
         })
         .collect::<Vec<Movement>>();
 
-    let mut head = Position { x: 0, y: 0 };
-    let mut tail = Position { x: 0, y: 0 };
+    let mut knots = vec![Position { x: 0, y: 0 }; 10];
 
     let mut tail_set: HashSet<Position> = HashSet::new();
+    let mut part_2_tail_set: HashSet<Position> = HashSet::new();
 
     for movement in movements {
-        for _i in 0..movement.distance {
-            match movement.direction {
-                Direction::Up => head.y += 1,
-                Direction::Down => head.y -= 1,
-                Direction::Left => head.x -= 1,
-                Direction::Right => head.x += 1,
-            };
+        for _distance in 0..movement.distance {
+            {
+                let head = &mut knots[0];
+                match movement.direction {
+                    Direction::Up => head.y += 1,
+                    Direction::Down => head.y -= 1,
+                    Direction::Left => head.x -= 1,
+                    Direction::Right => head.x += 1,
+                };
+            }
 
-            tail.move_to(&head);
+            for i in 1..10 {
+                let last_tail = knots[i - 1].clone();
+                let tail = &mut knots[i];
 
-            tail_set.insert(tail.clone());
+                tail.move_to(&last_tail, 1);
+            }
+
+            tail_set.insert(knots[1].clone());
+            part_2_tail_set.insert(knots[9].clone());
         }
     }
 
     let part_1 = tail_set.len().to_string();
-    let part_2 = "2".to_string();
+    let part_2 = part_2_tail_set.len().to_string();
 
     let duration = Instant::now() - time_before;
     let no_io_duration = Instant::now() - time_no_io;
